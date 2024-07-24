@@ -47,14 +47,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 			}
 			break;
 
-		case BRACES:  // Types [], {}, or <> and puts cursor between braces.
+		case BRACES:  // Types [], {}, «», or <> and puts cursor between braces.
 		if (record->event.pressed) {
 			clear_oneshot_mods();  // Temporarily disable mods.
 			unregister_mods(MOD_MASK_CSAG);
 			if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
 				SEND_STRING("{}");
 			} else if ((mods | oneshot_mods) & MOD_MASK_ALT) {
-				SEND_STRING(SS_TAP(X_RALT | X_LBRC) SS_TAP(X_RALT | X_RBRC));
+				SEND_STRING(SS_DOWN(X_RALT) SS_TAP(X_LBRC) SS_TAP(X_RBRC) SS_UP(X_RALT));		// Send «»
 			} else if ((mods | oneshot_mods) & MOD_MASK_CTRL) {
 				SEND_STRING("<>");
 			} else {
