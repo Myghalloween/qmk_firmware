@@ -53,6 +53,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 			unregister_mods(MOD_MASK_CSAG);
 			if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
 				SEND_STRING("{}");
+			} else if ((mods | oneshot_mods) & MOD_MASK_ALT) {
+				SEND_STRING(SS_TAP(X_RALT | X_LBRC) SS_TAP(X_RALT | X_RBRC));
 			} else if ((mods | oneshot_mods) & MOD_MASK_CTRL) {
 				SEND_STRING("<>");
 			} else {
@@ -103,8 +105,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 continue;
 
             HSV hsv;
-            hsv.s = 255;
-            hsv.v = matrix_hsv.v;
+            hsv.s = 255;							// If not defined Saturation is set to
+            hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;	// If not defined Brightness is set to
 
 //	/*1*/ uint16_t kc = layer ?														// Disable line 1 & 2 and enable line 3 to 
 //	/*2*/         keymap_key_to_keycode(layer, (keypos_t){col,row}) : 0;			// light up keys even on the default layer
@@ -117,33 +119,33 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 			case EE_CLR:
 			case QK_BOOT:
 				hsv.h = 252;
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 				break;
 			case MT(MOD_LCTL,KC_INS):
 				hsv.h = 2;
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 				break;
             case KC_RIGHT ... KC_UP:
                 hsv.h = matrix_hsv.h;
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
                 break;
-//			case KC_1 ... KC_0:
-//				hsv.h = 80;
-//				break;
-
             case KC_F1 ... KC_F12:
 				hsv.h = matrix_hsv.h;
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 //				hsv.v >>= 2;			// Decrease brightness
                 break;
 			case KC_P1 ... KC_P0:
 				hsv.h = matrix_hsv.h;
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 				break;
 
-//           case KC_LSFT:
 		   case MT(MOD_LSFT,KC_LEFT):
 		   case MT(MOD_LSFT | MOD_RSFT,KC_RGHT):
                 if (caps_lock)
-                    hsv.h = matrix_hsv.h;
-                else
-            continue;
-                break;
+ 					hsv.h = matrix_hsv.h;
+				else
+				continue;
+				break;
 				
 /*
 			case KC_NUM:			// NumLock key
@@ -165,9 +167,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 #endif
             case RGB_TOG ... RGB_SPD:
                 hsv.h = matrix_hsv.h + ((((kc + 3) >> 1) % 6) * 85 >> 1);
+				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 //				hsv.s = matrix_hsv.s;
                 uint8_t inc = (kc + !!(get_mods() & MOD_LSFT)) & 1;
-                hsv.v >>= 1 - inc;
+				hsv.v >>= 1 - inc;
                 break;
 
             default:
@@ -225,7 +228,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐        ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
     │  LGUI   │    Z    │    X    │    C    │    V    │    B    │LALT/DOWN│        │ RALT/UP │    N    │    M    │   , <   │   . >   │   / ?   │  ENT    │
 	└─────────┴─────────┴─────────┴────┬────┴────┬────┴────┬────┴────┬────┘        └────┬────┴────┬────┴────┬────┴────┬────┴─────────┴─────────┴─────────┘
-                                       │   [ {   │LCTL/RGB │ LT1/SPC │                  │ LT2/SPC │RCTL/' " │   ] }   │
+                                       │   [ {   │LCTL/RGB │ LT1/SPC │                  │ LT2/SPC │RCTL/- _ │   ' "   │
                                        └─────────┴─────────┴─────────┘                  └─────────┴─────────┴─────────┘
 */
 	QK_GESC, KC_1, KC_2, KC_3, KC_4, KC_5,														KC_6, KC_7, KC_8, KC_9, KC_0, KC_BSPC,
@@ -236,7 +239,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	KC_LGUI, KC_Z, KC_X, KC_C, KC_V, KC_B, MT(MOD_LALT,KC_DOWN),					MT(MOD_LALT | MOD_RALT,KC_UP), KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ENT,
 
-			KC_LBRC, MT(MOD_LCTL,KC_NO), LT(1,KC_SPC),											LT(2,KC_SPC), MT(MOD_RCTL,KC_QUOT), KC_RBRC
+			KC_LBRC, MT(MOD_LCTL,KC_NO), LT(1,KC_SPC),											LT(2,KC_SPC), MT(MOD_RCTL,KC_MINS), KC_QUOT
 
   ),
 
