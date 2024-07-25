@@ -54,7 +54,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 			if ((mods | oneshot_mods) & MOD_MASK_SHIFT) {
 				SEND_STRING("{}");
 			} else if ((mods | oneshot_mods) & MOD_MASK_ALT) {
-				SEND_STRING(SS_DOWN(X_RALT) SS_TAP(X_LBRC) SS_TAP(X_RBRC) SS_UP(X_RALT));		// Send «»
+				SEND_STRING(SS_RALT("[]"));		// Send «»
 			} else if ((mods | oneshot_mods) & MOD_MASK_CTRL) {
 				SEND_STRING("<>");
 			} else {
