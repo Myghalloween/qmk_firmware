@@ -118,25 +118,29 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             switch (kc) {
 			case EE_CLR:
 			case QK_BOOT:
-				hsv.h = 252;
-				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
+				hsv.h = 3;
 				break;
 			case MT(MOD_LCTL,KC_INS):
-				hsv.h = 2;
-				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
+				hsv.h = 3;
 				break;
             case KC_RIGHT ... KC_UP:
                 hsv.h = matrix_hsv.h;
-				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
                 break;
             case KC_F1 ... KC_F12:
 				hsv.h = matrix_hsv.h;
-				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 //				hsv.v >>= 2;			// Decrease brightness
                 break;
 			case KC_P1 ... KC_P0:
 				hsv.h = matrix_hsv.h;
-				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
+				break;
+			case KC_PMNS:
+				hsv.h = 172;
+				break;
+			case KC_PPLS:
+				hsv.h = 255;
+				break;
+			case KC_PEQL:
+				hsv.h = 85;
 				break;
 
 		   case MT(MOD_LSFT,KC_LEFT):
