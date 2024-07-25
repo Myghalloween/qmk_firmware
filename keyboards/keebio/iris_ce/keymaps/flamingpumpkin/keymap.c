@@ -151,18 +151,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 				continue;
 				break;
 				
-/*
-			case KC_NUM:			// NumLock key
-                hsv.h = 149;
-                break;
-            case KC_P1 ... KC_P0:
-                if (!num_lock) {
-                    hsv.h = 85;
-                    hsv.v >>= 2;
-                    break;
-                }
-*/
-
 #ifdef MOUSEKEY_ENABLE
             case KC_MS_U ... KC_BTN2:
             case KC_WH_U ... KC_WH_D:
