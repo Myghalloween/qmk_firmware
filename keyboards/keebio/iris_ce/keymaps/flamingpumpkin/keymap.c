@@ -176,6 +176,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 */	
 		   case MT(MOD_LSFT,KC_LEFT):
 		   case MT(MOD_LSFT | MOD_RSFT,KC_RGHT):
+		   case MT(MOD_LSFT,KC_HOME):
+		   case MT(MOD_LSFT | MOD_RSFT,KC_END):
                 if (caps_lock)
  					hsv.h = 85;
 				else
@@ -230,8 +232,8 @@ enum combos {
 };
 
 	const uint16_t PROGMEM lsft_rsft_combo[] = {MT(MOD_LSFT,KC_LEFT), MT(MOD_LSFT | MOD_RSFT,KC_RGHT), COMBO_END};
-	const uint16_t PROGMEM lsft_p5_combo[] = {MT(MOD_LSFT,KC_LEFT), KC_P5, COMBO_END};
-	const uint16_t PROGMEM rsft_p5_combo[] = {MT(MOD_LSFT | MOD_RSFT,KC_RGHT), KC_P5, COMBO_END};
+	const uint16_t PROGMEM lsft_p5_combo[] = {MT(MOD_LSFT,KC_HOME), KC_P5, COMBO_END};
+	const uint16_t PROGMEM rsft_p5_combo[] = {MT(MOD_LSFT | MOD_RSFT,KC_END), KC_P5, COMBO_END};
 	
 combo_t key_combos[] = {
 	[LSFT_RSFT_CAPS] = COMBO(lsft_rsft_combo, KC_CAPS),
@@ -281,7 +283,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                            ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
     │         │         │   LEFT  │  DOWN   │  RGHT   │   PGDN  │                            │    +    │    4    │    5    │    6    │         │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐        ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │LSFT/LEFT│         │         │         │         │         │         │        │         │   = +   │    1    │    2    │    3    │         │RSFT/RGHT│
+    │LSFT/HOME│         │         │         │         │         │         │        │         │   = +   │    1    │    2    │    3    │         │RSFT/END │
 	└─────────┴─────────┴─────────┴────┬────┴────┬────┴────┬────┴────┬────┘        └────┬────┴────┬────┴────┬────┴────┬────┴─────────┴─────────┴─────────┘
                                        │LCTL/LOCK│         │         │                  │ LT3/SPC │ RALT/ . │    0    │
                                        └─────────┴─────────┴─────────┘                  └─────────┴─────────┴─────────┘
@@ -292,7 +294,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	_______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,										KC_PPLS, KC_P4, KC_P5, KC_P6, _______, _______,
 
-	MT(MOD_LSFT,KC_LEFT), _______, _______, _______, _______, _______, _______,		_______, KC_EQL, KC_P1, KC_P2, KC_P3, _______, MT(MOD_LSFT | MOD_RSFT,KC_RGHT),
+	MT(MOD_LSFT,KC_HOME), _______, _______, _______, _______, _______, _______,		_______, KC_EQL, KC_P1, KC_P2, KC_P3, _______, MT(MOD_LSFT | MOD_RSFT,KC_END),
 
 			MT(MOD_LCTL,KC_INS), _______, _______, 												LT(3,KC_SPC), MT(MOD_LALT | MOD_RALT,KC_PDOT), KC_P0
 
@@ -314,11 +316,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
 	KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6,													KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
 
-	_______, _______, _______, KC_HASH, KC_DLR, KC_EXLM,										KC_AT, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+	_______, _______, _______, _______, _______, _______,										_______, _______, _______, _______, _______, _______,
 
-	_______, KC_MPRV, KC_MNXT, KC_VOLU, _______, KC_UNDS,										_______, KC_HOME, _______, _______, _______, _______,
+	_______, _______, _______, _______, _______, _______,										_______, _______, _______, _______, _______, _______,
 
-	MT(MOD_LSFT,KC_LEFT), KC_MSTP, KC_MPLY, KC_VOLD, _______, KC_MINS, _______,		_______, _______, KC_END, _______, _______, KC_BSLS, MT(MOD_LSFT | MOD_RSFT,KC_RGHT),
+	MT(MOD_LSFT,KC_LEFT), _______, _______, _______, _______, _______, _______,		_______, _______, _______, _______, _______, KC_BSLS, MT(MOD_LSFT | MOD_RSFT,KC_RGHT),
 
 			MT(MOD_LCTL,KC_INS), _______, LT(3,KC_SPC),											_______,  _______,  _______
 
