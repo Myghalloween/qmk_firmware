@@ -183,14 +183,19 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 				else
 				continue;
 				break;
+           case KC_MS_UP ... KC_MS_RIGHT:
+                hsv.h = 185;
+                break;
 
+/*
 #ifdef MOUSEKEY_ENABLE
-            case KC_MS_U ... KC_BTN2:
-            case KC_WH_U ... KC_WH_D:
+           case KC_MS_U ... KC_BTN2:
+           case KC_WH_U ... KC_WH_D:
                 hsv.h = 40;
                 break;
 #endif
-            case RGB_TOG ... RGB_SPD:
+*/
+           case RGB_TOG ... RGB_SPD:
                 hsv.h = matrix_hsv.h + ((((kc + 3) >> 1) % 6) * 85 >> 1);
 				hsv.v = RGB_MATRIX_MAXIMUM_BRIGHTNESS;
 //				hsv.s = matrix_hsv.s;
@@ -198,7 +203,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 				hsv.v >>= 1 - inc;
                 break;
 
-            default:
+           default:
 /*			
                 if (caps_lock && (row == 0 ||
                             (row == 3 && (col == 0 || col == 9))
@@ -226,19 +231,49 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 */
 
 enum combos {
-	LSFT_RSFT_CAPS,
-	LSFT_P5_NUM,
-	RSFT_P5_NUM
+	LSFT_RSFT_CAPS,				// Left Shift + Right Shift = Caps-Lock
+	LSFT_P5_NUM,				// Left Shift + Numpad 5 = Num-lock
+	RSFT_P5_NUM,				// Right Shift + Numpad 5 = Num-lock
+	SPC2_M_MUTE,				// Space LT2 + M = Mute
+	SPC1_C_CALC,				// Space LT1 + C = Calc
+	SPC3_P1_MUTE,				// Space LT3 + Numpad 1 = Mute
+	SPC3_P2_COMM,				// Space LT3 + Numpad 2 = KC_COMM (, <)
+	SPC3_P3_DOT,				// Space LT3 + Numpad 3 = KC_DOT (. >)
+	SPC2_SLSH_BSLS,				// Space LT2 + KC_SLSH = KC_BSLS (\|)
+	KC2U_SPC2_MINS,				// Space LT2 + KC_MINS = KC_MINS (-_)
+	KC2U_SPC3_MINS,				// Space LT3 + KC_MINS = KC_MINS (-_)
+	KC2U_SPC1_LBRC,				// Space LT1 + KC_LBRC = KC_LBRC ([{)
+	KC2U_SPC3_LBRC,				// Space LT3 + KC_LBRC = KC_LBRC ([{)
 };
 
 	const uint16_t PROGMEM lsft_rsft_combo[] = {MT(MOD_LSFT,KC_LEFT), MT(MOD_LSFT | MOD_RSFT,KC_RGHT), COMBO_END};
 	const uint16_t PROGMEM lsft_p5_combo[] = {MT(MOD_LSFT,KC_HOME), KC_P5, COMBO_END};
 	const uint16_t PROGMEM rsft_p5_combo[] = {MT(MOD_LSFT | MOD_RSFT,KC_END), KC_P5, COMBO_END};
+	const uint16_t PROGMEM spc2_m_combo[] = {LT(2,KC_SPC), KC_M, COMBO_END};
+	const uint16_t PROGMEM spc1_c_combo[] = {LT(1,KC_SPC), KC_C, COMBO_END};
+	const uint16_t PROGMEM spc3_p1_combo[] = {LT(3,KC_SPC), KC_P1, COMBO_END};
+	const uint16_t PROGMEM spc3_p2_combo[] = {LT(3,KC_SPC), KC_P2, COMBO_END};
+	const uint16_t PROGMEM spc3_p3_combo[] = {LT(3,KC_SPC), KC_P3, COMBO_END};
+	const uint16_t PROGMEM spc2_slsh_combo[] = {LT(2,KC_SPC), KC_SLSH, COMBO_END};
+	const uint16_t PROGMEM kc2u_spc2_mins_combo[] = {LT(2,KC_SPC), KC_MINS, COMBO_END};
+	const uint16_t PROGMEM kc2u_spc3_mins_combo[] = {LT(3,KC_SPC), KC_MINS, COMBO_END};
+	const uint16_t PROGMEM kc2u_spc1_lbrc_combo[] = {LT(1,KC_SPC), KC_LBRC, COMBO_END};
+	const uint16_t PROGMEM kc2u_spc3_lbrc_combo[] = {LT(3,KC_SPC), KC_LBRC, COMBO_END};
 	
 combo_t key_combos[] = {
 	[LSFT_RSFT_CAPS] = COMBO(lsft_rsft_combo, KC_CAPS),
 	[LSFT_P5_NUM] = COMBO(lsft_p5_combo, KC_NUM),
 	[RSFT_P5_NUM] = COMBO(rsft_p5_combo, KC_NUM),
+	[SPC2_M_MUTE] = COMBO(spc2_m_combo, KC_MUTE),
+	[SPC1_C_CALC] = COMBO(spc1_c_combo, KC_CALC),
+	[SPC3_P1_MUTE] = COMBO(spc3_p1_combo, KC_MUTE),
+	[SPC3_P2_COMM] = COMBO(spc3_p2_combo, KC_COMM),
+	[SPC3_P3_DOT] = COMBO(spc3_p3_combo, KC_DOT),
+	[SPC2_SLSH_BSLS] = COMBO(spc2_slsh_combo, KC_BSLS),
+	[KC2U_SPC2_MINS] = COMBO(kc2u_spc2_mins_combo, KC_MINS),
+	[KC2U_SPC3_MINS] = COMBO(kc2u_spc3_mins_combo, KC_MINS),
+	[KC2U_SPC1_LBRC] = COMBO(kc2u_spc1_lbrc_combo, KC_LBRC),
+	[KC2U_SPC3_LBRC] = COMBO(kc2u_spc3_lbrc_combo, KC_LBRC),
 };
 /*
 			┌──────────────────────────────┐
@@ -279,22 +314,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐                            ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
 	│         │    !    │    @    │    #    │    $    │    %    │                            │    ^    │    &    │    *    │    (    │    )    │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                            ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │         │         │         │   UP    │         │   PGUP  │                            │    -    │    7    │    8    │    9    │         │         │
+    │         │         │   UP    │         │         │         │                            │    -    │    7    │    8    │    9    │         │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                            ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │         │         │   LEFT  │  DOWN   │  RGHT   │   PGDN  │                            │    +    │    4    │    5    │    6    │         │         │
+    │         │   LEFT  │  DOWN   │  RGHT   │         │   PGUP  │                            │    +    │    4    │    5    │    6    │         │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐        ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │LSFT/HOME│         │         │         │         │         │         │        │         │   = +   │    1    │    2    │    3    │         │RSFT/END │
+    │LSFT/HOME│         │         │         │         │   PGDN  │         │        │         │   = +   │    1    │    2    │    3    │         │RSFT/END │
 	└─────────┴─────────┴─────────┴────┬────┴────┬────┴────┬────┴────┬────┘        └────┬────┴────┬────┴────┬────┴────┬────┴─────────┴─────────┴─────────┘
                                        │LCTL/LOCK│         │         │                  │ LT3/SPC │ RALT/ . │    0    │
                                        └─────────┴─────────┴─────────┘                  └─────────┴─────────┴─────────┘
 */
 	_______, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC,											KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
 
-	_______, _______, _______, KC_UP, _______, KC_PGUP,											KC_PMNS, KC_P7, KC_P8, KC_P9, _______, _______,
+	_______, _______, KC_UP, _______, _______, _______,											KC_PMNS, KC_P7, KC_P8, KC_P9, _______, _______,
 
-	_______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,										KC_PPLS, KC_P4, KC_P5, KC_P6, _______, _______,
+	_______, KC_LEFT, KC_DOWN, KC_RGHT, _______, KC_PGUP,										KC_PPLS, KC_P4, KC_P5, KC_P6, _______, _______,
 
-	MT(MOD_LSFT,KC_HOME), _______, _______, _______, _______, _______, _______,		_______, KC_EQL, KC_P1, KC_P2, KC_P3, _______, MT(MOD_LSFT | MOD_RSFT,KC_END),
+	MT(MOD_LSFT,KC_HOME), _______, _______, _______, _______, KC_PGDN, _______,		_______, KC_EQL, KC_P1, KC_P2, KC_P3, _______, MT(MOD_LSFT | MOD_RSFT,KC_END),
 
 			MT(MOD_LCTL,KC_INS), _______, _______, 												LT(3,KC_SPC), MT(MOD_LALT | MOD_RALT,KC_PDOT), KC_P0
 
@@ -305,22 +340,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐                            ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
 	│    F1   │    F2   │    F3   │    F4   │   F5    │   F6    │                            │    F7   │    F8   │    F9   │   F10   │   F11   │   F12   │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                            ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │         │         │         │         │         │         │                            │         │         │         │         │         │         │
+    │         │         │         │         │         │         │                            │         │         │ MS BTN1 │ MS UP   │ MS BTN2 │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                            ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │         │         │         │         │         │         │                            │         │         │         │         │         │         │
+    │         │         │         │         │         │         │                            │         │         │ MS LEFT │ MS DOWN │ MS RGHT │         │
 	├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐        ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-    │LSFT/LEFT│         │         │         │         │         │         │        │         │         │         │         │         │  \ |    │RSFT/RGHT│
+    │LSFT/LEFT│         │         │         │         │         │         │        │         │         │         │         │         │         │RSFT/RGHT│
 	└─────────┴─────────┴─────────┴────┬────┴────┬────┴────┬────┴────┬────┘        └────┬────┴────┬────┴────┬────┴────┬────┴─────────┴─────────┴─────────┘
                                        │LCTL/LOCK│         │ LT3/SPC │                  │         │         │         │
                                        └─────────┴─────────┴─────────┘                  └─────────┴─────────┴─────────┘
 */
 	KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6,													KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
 
-	_______, _______, _______, _______, _______, _______,										_______, _______, _______, _______, _______, _______,
+	_______, _______, _______, _______, _______, _______,										_______, _______, KC_MS_BTN1, KC_MS_UP, KC_MS_BTN2, _______,
 
-	_______, _______, _______, _______, _______, _______,										_______, _______, _______, _______, _______, _______,
+	_______, _______, _______, _______, _______, _______,										_______, _______, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, _______,
 
-	MT(MOD_LSFT,KC_LEFT), _______, _______, _______, _______, _______, _______,		_______, _______, _______, _______, _______, KC_BSLS, MT(MOD_LSFT | MOD_RSFT,KC_RGHT),
+	MT(MOD_LSFT,KC_LEFT), _______, _______, _______, _______, _______, _______,		_______, _______, _______, _______, _______, _______, MT(MOD_LSFT | MOD_RSFT,KC_RGHT),
 
 			MT(MOD_LCTL,KC_INS), _______, LT(3,KC_SPC),											_______,  _______,  _______
 
